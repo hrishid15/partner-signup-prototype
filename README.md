@@ -4,6 +4,8 @@ A clickable redesign of the impact.com partner signup flow, built for the Week 2
 
 It is a front-end prototype only. There is no backend, no real sign-in and no real AI. Everything resets when you close the tab.
 
+**Live:** https://partner-signup-prototype-seven.vercel.app (hosted on Vercel, redeploys on every push to `main`)
+
 ## Run it
 
 You need Node 20 or newer.
