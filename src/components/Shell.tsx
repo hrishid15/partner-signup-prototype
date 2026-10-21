@@ -22,12 +22,11 @@ export function minutesLeft(fromIndex: number): number {
   return STEPS.slice(fromIndex).reduce((sum, s) => sum + s.minutes, 0)
 }
 
+/** Text wordmark in the impact.com style (red dot between "impact" and "com"). Not the official logo file. */
 export function Mark() {
   return (
-    <span className="mark" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="22" height="22">
-        <path d="M4 17 L10 6 L14 13 L17 9 L20 17 Z" fill="currentColor" />
-      </svg>
+    <span className="wordmark" role="img" aria-label="impact.com">
+      impact<span className="wordmark-dot" />com
     </span>
   )
 }

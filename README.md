@@ -62,6 +62,7 @@ Be careful not to present these as facts.
 - **Review time** (3 to 5 business days) is made up. It lives in `REVIEW_WINDOW` in `src/data.ts`.
 - **Decline reasons** are written from what the tester entered. The real product needs reason codes from the review team.
 - **Brand name and offer** (Trailhead Outfitters) are sample text.
+- **impact.com wordmark** is typed text with a red dot (`Mark` in `src/components/Shell.tsx`), not the official logo file. The colors and Lexend font come from impact.com, but their heading typeface is proprietary, so Lexend stands in for it.
 - **Follower counts** are generated. They are labeled "sample" on screen.
 - **AI profile draft** is three templates in `makeDraft` in `src/data.ts`.
 - **Academy and resource hub items** on the result screen are sample items.

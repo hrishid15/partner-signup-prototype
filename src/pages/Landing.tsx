@@ -35,7 +35,9 @@ export default function Landing() {
 
       <main className="land-main">
         <section className="hero">
-          <h1>Earn when you recommend brands you believe in</h1>
+          <h1>
+            Earn when you recommend <span className="accent">brands you believe in</span>
+          </h1>
           <p className="hero-lead">Free to join. Connect where you share, get approved by our team, and start working with brands.</p>
           <div className="hero-actions">
             <button type="button" className="btn btn-primary btn-lg" onClick={() => join()}>
