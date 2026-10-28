@@ -37,8 +37,9 @@ export const ISSUES: Issue[] = [
     source: 'UX review',
     severity: 'Blocker',
     saw: 'Connect channels: Next stays disabled until a channel is connected. The Skip button and optional text sit under the header.',
-    change: 'One button that changes with the situation: "Skip for now" with no channel, "Continue" once one is connected. A line under it says what skipping costs.',
-    status: 'fixed',
+    change: 'Continue is always visible in a footer bar and never fails silently: with no channel it says one is needed and moves focus to the first channel. The page says "one is enough", and adding a link counts.',
+    status: 'partial',
+    caveat: 'The team decided a channel is required, so the "needs a skip" half of this finding is deliberately not done. The silent disabled button and hidden requirement are fixed.',
     where: { label: 'Connect channels', to: '/channels' },
   },
   {
@@ -422,9 +423,9 @@ export const ISSUES: Issue[] = [
     source: 'Funnel data',
     severity: 'Blocker',
     saw: 'Connect your channels is the biggest leak. Marketplace partners complete it 65 to 67% of the time and brand-invited partners 54 to 59%, against 90 to 97% on the other steps. Invited partners drop more even though a brand already invited them.',
-    change: 'For invited partners the page says the brand already invited them and that skipping is fine, and the footer note says the brand can still review the request. Everyone gets the inline panel, skip-first footer and plain data-use lines.',
+    change: 'Invited partners are told one channel lets the brand see their reach, with adding a link as the no-sign-in route. Everyone gets the inline panel, a "one is enough" line and plain data-use lines.',
     status: 'partial',
-    caveat: 'This is a hypothesis: invited partners may read "connect" as redundant. We do not know whether "completed" counts skipped steps, so some of the drop may be people skipping. Needs PostHog.',
+    caveat: 'This is a hypothesis, and requiring a channel could make this drop worse rather than better. We do not know whether "completed" counts skipped steps. Needs PostHog.',
     where: { label: 'Connect channels, brand invite', to: '/channels', patch: invite },
   },
 ]

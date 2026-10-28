@@ -2,31 +2,33 @@
    Tokens
 ------------------------------------------------------------------- */
 :root {
-  /* Palette taken from impact.com: cream paper, near-black ink, one red accent */
-  --rail: #161414;
-  --rail-ink: #faf4ee;
-  --rail-muted: #b5aba4;
-  --ink: #161414;
-  --muted: #665f5c;
-  --paper: #faf4ee;
-  --card: #ffffff;
-  --wash: #f2eae1;
-  --line: #e8dfd6;
+  /* Palette from the team's Figma Make mockup (Social Connections Page Design).
+     --primary is a shade darker than the mockup's #e73327 so white button text passes AA. */
+  --rail: #161412;
+  --rail-ink: #f6f2ed;
+  --rail-muted: #b8b0a7;
+  --ink: #161412;
+  --muted: #6c6761;
+  --paper: #f6f2ed;
+  --card: #fffdfb;
+  --wash: #f2ede7;
+  --line: #ded7cf;
   --line-strong: #8c827b;
-  --primary: #e81515;
-  --primary-dark: #c20e0e;
-  --tint: #fff0ee;
-  --mint: #a1f4e9;
+  --primary: #d92d20;
+  --primary-dark: #c9251c;
+  --tint: #fdeeec;
+  --mint: #e1f2eb;
   --hi: #f9e79d;
   --error: #b3261e;
-  --ok: #1b7a43;
+  --ok: #157459;
   --focus: #276fe5;
 
-  /* impact.com sets body copy in Lexend; its display face is proprietary, so Lexend covers both */
-  --font-display: 'Lexend Variable', 'Lexend', system-ui, sans-serif;
-  --font-body: 'Lexend Variable', 'Lexend', system-ui, sans-serif;
+  --font-display: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
+  --font-body: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
 
-  --radius-card: 16px;
+  --radius-card: 18px;
+  --shadow-card: 0 24px 70px rgba(45, 36, 29, 0.13);
+  --head-h: 64px;
 
   --bar-h: 42px;
 }

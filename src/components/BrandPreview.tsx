@@ -11,6 +11,7 @@ function Orbit({ initial }: { initial: string }) {
     <svg className="orbit" viewBox="0 0 220 220" role="img" aria-label={`${state.connected.length} of ${slots} places filled`}>
       <circle cx={c} cy={c} r={r} fill="none" stroke="var(--line)" strokeWidth="1.5" strokeDasharray="3 6" />
       <circle cx={c} cy={c} r={r - 34} fill="none" stroke="var(--line)" strokeWidth="1" />
+      <ellipse cx={c} cy={c} rx={r + 12} ry={r - 30} fill="none" stroke="var(--primary)" strokeWidth="1.5" transform={`rotate(-24 ${c} ${c})`} />
       {Array.from({ length: slots }).map((_, i) => {
         const a = (-90 + i * (360 / slots)) * (Math.PI / 180)
         const x = c + r * Math.cos(a)

@@ -1,22 +1,60 @@
 /* ------------------------------------------------------------------
-   Week 3 additions. Loaded after styles.css, so it only adds or overrides.
-   The base palette and type are the impact.com restyle in styles.css.
-   From the team's Figma Make mockup: a big headline, a red eyebrow, a
-   progress panel with percent complete, a footer bar with Skip and
-   Continue, arrows on the forward action, and an orbit graphic.
+   Figma layer. Loaded after styles.css, so it only adds or overrides.
+   Matches the team's Figma Make mockup (Social Connections Page Design):
+   DM Sans, cream ground, warm white cards, black in-card buttons, red only
+   for the forward action and accents, a white app header with "Saved",
+   a light progress panel with card-style steps, and a footer bar with
+   Back on the left and Continue on the right.
 ------------------------------------------------------------------- */
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
 .flow-main h1 {
-  font-size: clamp(2.1rem, 1.3rem + 3vw, 3.2rem);
+  font-size: clamp(2.1rem, 1.3rem + 2.4vw, 2.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
 }
 
 .eyebrow {
   margin: 0 0 12px;
   color: var(--primary-dark);
-  font: 600 0.8125rem/1.2 var(--font-body);
-  letter-spacing: 0.1em;
+  font: 700 0.6875rem/1.2 var(--font-body);
+  letter-spacing: 0.13em;
   text-transform: uppercase;
 }
 
+/* ---------- Buttons ---------- */
+.btn {
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+.btn-dark {
+  background: var(--ink);
+  color: #fff;
+}
+.btn-dark:hover {
+  background: #36312d;
+}
+.btn-outline {
+  background: transparent;
+  border-color: #bdb5ad;
+}
+.btn-outline:hover {
+  background: var(--card);
+  border-color: var(--ink);
+}
+.btn-primary[aria-disabled='true'],
+.btn-primary[aria-disabled='true']:hover {
+  background: #f1cbc6;
+  border-color: transparent;
+  color: #6e1d16;
+}
 .btn-danger {
   background: var(--error);
   color: #fff;
@@ -32,26 +70,106 @@
   font-weight: 500;
 }
 
-/* Progress panel: percent complete, bar, saved note */
-.rail-pct {
+/* ---------- App header ---------- */
+.flow {
+  grid-template-columns: 300px minmax(0, 1fr);
+  grid-template-areas:
+    'head head'
+    'rail main';
+}
+.apphead {
+  grid-area: head;
+  position: sticky;
+  top: var(--bar-h);
+  z-index: 30;
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 16px;
+  height: var(--head-h);
+  padding: 0 32px;
+  background: rgba(255, 253, 251, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.apphead-brand {
+  display: inline-flex;
+  color: var(--ink);
+  text-decoration: none;
+}
+.apphead-brand:hover {
+  color: var(--ink);
+}
+.apphead-label {
+  margin-left: 12px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.apphead-who {
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.apphead-saved {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
-  margin-top: 26px;
+  color: var(--muted);
+  font-size: 0.8125rem;
 }
-.rail-pct-num {
-  font: 500 3.2rem/0.95 var(--font-display);
-  letter-spacing: -0.04em;
+.apphead-saved-tick {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--ok);
 }
-.rail-pct-label {
-  color: var(--rail-muted);
-  font-weight: 500;
+
+/* ---------- Progress panel ---------- */
+.rail {
+  grid-area: rail;
+  top: calc(var(--bar-h) + var(--head-h));
+  height: calc(100dvh - var(--bar-h) - var(--head-h));
+  padding: 38px 24px 26px;
+  background: #fbf8f4;
+  color: var(--ink);
+  border-right: 1px solid var(--line);
+}
+.rail :focus-visible {
+  outline-color: var(--focus);
+}
+.rail-title {
+  font: 600 1.35rem/1.25 var(--font-display);
+  letter-spacing: -0.03em;
+}
+.rail-joining {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.rail-progress {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 18px;
+  font-size: 0.8125rem;
+}
+.rail-pct {
+  font-weight: 700;
+}
+.rail-left {
+  color: var(--muted);
 }
 .rail-bar {
-  height: 6px;
-  margin-top: 12px;
+  height: 4px;
+  margin-top: 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: #e8e1da;
   overflow: hidden;
 }
 .rail-bar span {
@@ -62,28 +180,110 @@
   transition: width 0.4s ease;
 }
 .steps {
-  margin-top: 26px;
+  margin-top: 24px;
+  display: grid;
+  gap: 4px;
 }
-.rail-saved {
-  display: flex;
+.step {
   align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  color: #7fe0b0;
-  font-weight: 500;
+  gap: 12px;
+  padding: 13px 12px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+}
+.step:not(:last-child)::after {
+  display: none;
+}
+.step-current {
+  background: var(--card);
+  border-color: var(--line);
+  box-shadow: 0 8px 24px rgba(41, 34, 29, 0.06);
+}
+.step-dot {
+  border: 1px solid #a49c94;
+  color: var(--ink);
+  font: 600 0.8125rem var(--font-body);
+}
+.step-done .step-dot {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+.step-current .step-dot {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.step-text {
+  padding-top: 0;
+}
+.step-label,
+.step-current .step-label,
+.step-todo .step-label {
+  color: var(--ink);
   font-size: 0.9375rem;
+  font-weight: 600;
+}
+.step-note {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.step-arrow {
+  margin-left: auto;
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+.rail-foot {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.8125rem;
 }
 
-/* ------------------------------------------------------------------
-   Week 3 theme. Loaded after styles.css, so it only overrides.
-   Direction comes from the team's Figma Make mockup: cream ground,
-   one red accent, black pill buttons, a big headline, a left progress
-   panel with percent complete, and a footer bar with Skip and Continue.
-------------------------------------------------------------------- */
-/* Channel tiles */
+/* ---------- Footer bar ---------- */
+.actionbar {
+  background: rgba(255, 253, 251, 0.92);
+  border-top: 1px solid var(--line);
+}
+.actionbar-inner {
+  max-width: none;
+  gap: 10px 20px;
+}
+.actionbar-back {
+  min-height: 44px;
+}
+.actionbar-note {
+  flex: 1 1 240px;
+  max-width: none;
+  text-align: right;
+  font-size: 0.875rem;
+}
+
+/* ---------- Connect channels ---------- */
+.channels-side {
+  top: calc(var(--bar-h) + var(--head-h) + 24px);
+}
+.needone {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-top: 18px;
+  padding: 12px 16px;
+  background: rgba(255, 253, 251, 0.6);
+  border: 1px dashed #c7beb5;
+  border-radius: 14px;
+  font-size: 0.875rem;
+}
+.needone-count {
+  font-weight: 600;
+}
 .group-title {
   margin: 28px 0 10px;
-  font-size: 1.05rem;
+  font: 600 1.15rem var(--font-display);
+  letter-spacing: -0.02em;
+  text-transform: none;
   color: var(--ink);
 }
 .tiles {
@@ -96,21 +296,59 @@
 }
 .tile {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-columns: 40px minmax(0, 1fr);
   grid-template-areas: 'badge text' 'act act';
-  gap: 10px 12px;
+  gap: 12px;
   align-items: center;
   padding: 16px;
   background: var(--card);
-  border: 1.5px solid var(--line);
-  border-radius: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
 }
 .tile .chbadge {
   grid-area: badge;
+  width: 40px;
+  height: 40px;
+}
+.chbadge-tint {
+  background: color-mix(in srgb, var(--c) 13%, #fff);
+  color: var(--c);
+  border-radius: 12px;
 }
 .tile .chtext {
   grid-area: text;
   min-width: 0;
+}
+.tile .chname {
+  font-weight: 600;
+}
+.chstatus {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.chstatus::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a49c94;
+}
+.chstatus-on {
+  color: var(--ok);
+  font-weight: 600;
+}
+.chstatus-on::before {
+  background: var(--ok);
+}
+.tile .chmeta {
+  overflow-wrap: anywhere;
+  font-size: 0.875rem;
 }
 .tile-act {
   grid-area: act;
@@ -122,22 +360,21 @@
   border-color: var(--ink);
 }
 .tile-on {
-  border-color: var(--ok);
+  background: #fbfdfb;
+  border-color: #b9dccd;
 }
 .tile-on .chbadge {
-  box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--ok);
-}
-.tile .chmeta {
-  overflow-wrap: anywhere;
+  box-shadow: none;
 }
 
-/* Inline connect panel, replaces the modal */
+/* Inline connect panel */
 .cpanel {
   margin: 0 0 18px;
-  padding: 22px;
+  padding: 24px;
   background: var(--card);
-  border: 2px solid var(--ink);
-  border-radius: 20px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
 }
 .cpanel-head {
   display: flex;
@@ -196,7 +433,7 @@
   border-top: 1px solid var(--line);
 }
 .disclose dt {
-  font-weight: 500;
+  font-weight: 600;
 }
 .disclose dd {
   margin: 0;
@@ -218,7 +455,7 @@
 }
 .linkedin summary {
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -227,10 +464,12 @@
   color: var(--muted);
 }
 
-/* Orbit graphic in the brand preview */
+/* Brand preview: the mockup's hero card, with the orbit graphic */
 .preview {
-  background: var(--wash);
-  border-radius: 24px;
+  padding: 24px;
+  background: var(--card);
+  border-radius: 28px;
+  box-shadow: var(--shadow-card);
 }
 .orbit {
   display: block;
@@ -239,16 +478,52 @@
   margin: 0 auto 14px;
 }
 .preview-card {
-  border-radius: 18px;
-  border-color: var(--line);
+  background: #fbf8f4;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
 }
 .avatar {
   background: var(--ink);
 }
 
+/* ---------- Phones and small tablets ---------- */
 @media (max-width: 859px) {
-  .rail-pct-num {
-    font-size: 2.6rem;
+  .apphead {
+    position: static;
+    height: 56px;
+    padding: 0 16px;
+  }
+  .topbar {
+    background: var(--card);
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-label {
+    font-weight: 600;
+  }
+  .topbar-step {
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .topbar-bar {
+    height: 4px;
+    background: #e8e1da;
+  }
+  .topbar-time {
+    color: var(--muted);
+  }
+  .actionbar-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px 10px;
+  }
+  .actionbar-buttons {
+    grid-column: -2 / -1;
+  }
+  .actionbar-note {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
   }
 }
 @media (max-width: 599px) {
@@ -259,5 +534,8 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 2px;
   }
+  .apphead-label,
+  .apphead-who {
+    display: none;
+  }
 }
-

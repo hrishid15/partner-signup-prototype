@@ -16,7 +16,7 @@ const BEFORE = [
 ]
 
 const AFTER = [
-  'Skip for now is always visible in a footer bar, and becomes Continue once a channel is connected. A line says what skipping costs.',
+  'Connecting at least one channel is required. Continue is always visible in a footer bar; with nothing connected it says so and moves to the first channel, and adding a link counts, so nobody has to sign in.',
   'Opening a channel shows three lines before anything is connected: why we ask, what we read, and how to disconnect.',
   'Instagram offers a direct sign-in note (pending engineering). LinkedIn is not listed, and "Why isn\'t LinkedIn here?" explains the auto-decline.',
   'Everything happens inline. A panel opens under the tile you chose, sign-in is described as a new tab, and a failure names the channel, gives two tips and offers "Add a link instead".',
@@ -52,8 +52,8 @@ const FUNNEL: { moment: string; risk: string; change: string; events: string }[]
   {
     moment: 'Connect channels',
     risk: 'The biggest leak in the real funnel (see the numbers above). Partners without a ready account, with a failing connection, or who do not know why a channel is wanted stop here. Invited partners may read it as redundant.',
-    change: 'Visible skip, plain data-use lines, an inline panel instead of a popup, specific errors with another route, add by link, disconnect on each tile, a live preview, and invite-specific wording.',
-    events: 'channels_viewed (entry), channel_panel_opened, channel_connect_started, channel_connect_succeeded, channel_connect_failed, channel_link_added, channel_disconnect_asked, channel_disconnected, linkedin_explainer_opened, channels_skipped, channels_continued',
+    change: 'A stated "one is enough" requirement, plain data-use lines, an inline panel instead of a popup, specific errors with another route, add by link, disconnect on each tile, a live preview, and invite-specific wording.',
+    events: 'channels_viewed (entry), channel_panel_opened, channel_connect_started, channel_connect_succeeded, channel_connect_failed, channel_link_added, channel_disconnect_asked, channel_disconnected, linkedin_explainer_opened, channels_continue_blocked, channels_continued',
   },
   {
     moment: 'Profile',
@@ -77,8 +77,8 @@ const FUNNEL: { moment: string; risk: string; change: string; events: string }[]
 
 const DECISIONS: { q: string; why: string }[] = [
   {
-    q: 'Does skipping channels hurt approval?',
-    why: 'The new button makes skipping easy. If marketplace review needs a channel, partners who skip will be declined later. Decide whether to require one for the marketplace only, and tell them on this screen.',
+    q: 'Will requiring a channel make the Connect drop worse?',
+    why: 'The team chose to require at least one channel, so review always has something to check. Connect is already the biggest leak, though. Compare channels_continue_blocked with channels_continued, and if invited partners stall, consider requiring it for the marketplace only.',
   },
   { q: 'Can we offer direct Instagram sign-in?', why: 'Gauravee is checking with engineering whether Meta\'s OAuth can be limited to Instagram. The panel assumes yes. If not, the note comes out and "Add a link instead" stays the route.' },
   { q: 'Which channels actually perform best?', why: 'The "recommended" line names the first three channels for each partner type. That is a guess. If someone has channel-level approval or earnings data, swap it in.' },

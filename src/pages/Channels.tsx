@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Fragment, useEffect, useState, type CSSProperties } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { track } from '../analytics'
 import { BRAND, channelOrder, formatReach, listJoin, plural, shortName, type ChannelDef } from '../data'
 import { ActionBar, FlowShell } from '../components/Shell'
@@ -35,7 +35,7 @@ interface TileProps {
 function Tile({ ch, connected, open, confirming, onConnect, onAskDisconnect, onKeep, onDisconnect }: TileProps) {
   return (
     <li className={`tile${connected ? ' tile-on' : ''}${open ? ' tile-open' : ''}`}>
-      <span className="chbadge" style={{ background: ch.color }} aria-hidden="true">
+      <span className="chbadge chbadge-tint" style={{ '--c': ch.color } as CSSProperties} aria-hidden="true">
         {ch.badge}
       </span>
       <div className="chtext">
@@ -71,7 +71,7 @@ function Tile({ ch, connected, open, confirming, onConnect, onAskDisconnect, onK
           <button
             type="button"
             id={`row-${ch.id}`}
-            className="btn btn-outline btn-sm"
+            className="btn btn-dark btn-sm"
             aria-expanded={open}
             aria-label={`${ch.linkOnly ? 'Add' : 'Connect'} ${ch.name}`}
             onClick={onConnect}
@@ -79,18 +79,20 @@ function Tile({ ch, connected, open, confirming, onConnect, onAskDisconnect, onK
             {ch.linkOnly ? 'Add' : 'Connect'}
           </button>
         )}
+        {!confirming && <span className={`chstatus${connected ? ' chstatus-on' : ''}`}>{connected ? 'Connected' : 'Not connected'}</span>}
       </div>
     </li>
   )
 }
 
 export default function Channels() {
-  const { state, connect, disconnect, patch } = useProto()
+  const { state, connect, disconnect } = useProto()
   const nav = useNavigate()
   const cols = useColumns()
   const [activeId, setActiveId] = useState<string | null>(null)
   const [confirmId, setConfirmId] = useState<string | null>(null)
   const [said, setSaid] = useState('')
+  const [blocked, setBlocked] = useState(false)
 
   useEffect(() => {
     track('channels_viewed', { persona: state.persona, entry: state.entry })
@@ -106,6 +108,7 @@ export default function Channels() {
 
   function done(c: Connected, ch: ChannelDef) {
     connect(c)
+    setBlocked(false)
     setActiveId(null)
     setSaid(`${ch.name} connected as ${c.handle}. Saved.`)
     window.setTimeout(() => document.getElementById(`row-${c.id}`)?.focus(), 30)
@@ -124,13 +127,15 @@ export default function Channels() {
     window.setTimeout(() => document.getElementById(`row-${ch.id}`)?.focus(), 30)
   }
 
+  /** Connecting is required: with nothing connected, Continue explains why and moves focus to the first channel. */
   function proceed() {
     if (n === 0) {
-      patch({ skippedChannels: true })
-      track('channels_skipped', { persona: state.persona, entry: state.entry })
-    } else {
-      track('channels_continued', { count: n, channels: state.connected.map((c) => c.id), entry: state.entry })
+      setBlocked(true)
+      track('channels_continue_blocked', { persona: state.persona, entry: state.entry })
+      document.getElementById(`row-${top[0].id}`)?.focus()
+      return
     }
+    track('channels_continued', { count: n, channels: state.connected.map((c) => c.id), entry: state.entry })
     nav('/profile')
   }
 
@@ -178,17 +183,18 @@ export default function Channels() {
   return (
     <FlowShell step={2}>
       <div className="page page-wide">
-        <Link to="/about" className="backlink">
-          Back
-        </Link>
         <div className="channels-grid">
           <div>
-            <p className="eyebrow">Step 3 of 4 · Optional</p>
+            <p className="eyebrow">Step 3 of 4</p>
             <h1>Show brands where you share</h1>
             <p className="lead">
               {invited
-                ? `${BRAND.name} already invited you, so you can skip this. A channel just gives them more to go on.`
-                : `Optional, but recommended. Brands look at ${listJoin(top.map((c) => shortName(c.id)))} first.`}
+                ? `Connect at least one channel so ${BRAND.name} can see your reach. A link works if you'd rather not sign in.`
+                : `Connect at least one channel to continue. Brands look at ${listJoin(top.map((c) => shortName(c.id)))} first.`}
+            </p>
+            <p className="needone">
+              <span className="needone-count">{n === 0 ? 'None connected yet' : `${plural(n, 'channel', 'channels')} connected`}</span>
+              <span className="muted">One is enough to continue</span>
             </p>
 
             <h2 className="group-title">Recommended for you</h2>
@@ -216,16 +222,23 @@ export default function Channels() {
       </div>
 
       <ActionBar
+        back="/about"
         note={
-          n === 0
-            ? invited
-              ? `Skipping is fine. ${BRAND.name} can still review your request. You can add channels later.`
-              : 'Skipping is fine. Without a channel, brands see a basic profile with no reach, so adding one later helps.'
-            : `${plural(n, 'channel', 'channels')} connected. You can add or remove channels later from your profile.`
+          n === 0 ? (
+            blocked ? (
+              <span id="channels-msg" className="field-error" role="alert">
+                Connect at least one channel to continue. No sign-in? Choose Add a link instead.
+              </span>
+            ) : (
+              'Connect at least one channel to continue. Adding a link works too.'
+            )
+          ) : (
+            `${plural(n, 'channel', 'channels')} connected. Your progress is saved automatically.`
+          )
         }
       >
-        <button type="button" className={n === 0 ? 'btn btn-secondary' : 'btn btn-primary'} onClick={proceed}>
-          {n === 0 ? 'Skip for now' : 'Continue'}
+        <button type="button" className="btn btn-primary" aria-disabled={n === 0} aria-describedby={blocked && n === 0 ? 'channels-msg' : undefined} onClick={proceed}>
+          Continue
         </button>
       </ActionBar>
     </FlowShell>

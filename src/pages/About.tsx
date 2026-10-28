@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { track } from '../analytics'
 import { PERSONAS } from '../data'
 import { ActionBar, FlowShell } from '../components/Shell'
@@ -30,9 +30,6 @@ export default function About() {
   return (
     <FlowShell step={1}>
       <div className="page">
-        <Link to="/signup" className="backlink">
-          Back
-        </Link>
         <p className="eyebrow">Step 2 of 4</p>
         <h1>What best describes you?</h1>
         <p className="lead">Your answer decides which channels and brands we suggest. You can change it later.</p>
@@ -67,6 +64,7 @@ export default function About() {
       </div>
 
       <ActionBar
+        back="/signup"
         note={
           blocked ? (
             <span id="persona-msg" className="field-error" role="alert">

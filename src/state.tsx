@@ -27,7 +27,6 @@ export interface State {
   persona: Persona | null
   workName: string
   connected: Connected[]
-  skippedChannels: boolean
   profile: {
     display: string
     description: string
@@ -47,7 +46,6 @@ export const initialState: State = {
   persona: null,
   workName: '',
   connected: [],
-  skippedChannels: false,
   profile: { display: '', description: '', draftVariant: 0, draftUsed: false, draftTouched: false },
   submitted: false,
 }
@@ -71,7 +69,6 @@ function reducer(state: State, action: Action): State {
     case 'connect':
       return {
         ...state,
-        skippedChannels: false,
         connected: [...state.connected.filter((c) => c.id !== action.channel.id), action.channel],
       }
     case 'disconnect':

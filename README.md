@@ -35,7 +35,7 @@ The dark bar at the top is for us, not for partners.
 
 Two quick tours:
 
-1. Start at the landing page, join, pick Creator, and open Connect channels. Try Skip for now, then connect one and watch the button change.
+1. Start at the landing page, join, pick Creator, and open Connect channels. Try Continue with nothing connected to see the requirement message, then connect one (or add a link) and continue.
 2. Set Channel sign-ins to Fail, then try to connect a channel. Use "Add link instead".
 
 ## What is in it
@@ -61,10 +61,17 @@ IDs: `F` is the 18 findings in our UX review, `K` is Kelly, `B` is Bobby, `R` is
 - Each channel shows why we ask, what we read, and how to disconnect before anything is connected.
 - Every connected tile has Disconnect, with a one-line confirm on the tile.
 - LinkedIn is not offered. "Why isn't LinkedIn here?" explains the auto-decline.
-- "Optional, but recommended" names the suggested channels. Brand-invited partners get invite-specific wording.
+- The line under the headline names the suggested channels. Brand-invited partners get invite-specific wording.
 - The brand-view preview has an orbit graphic that fills in as channels are added.
 - Looks borrowed from the Figma Make mockup, on top of the impact.com restyle: a progress panel with percent complete and "Progress saved", a red step eyebrow, a bigger headline, arrows on the forward button, and the orbit graphic.
 - The Changes page has the funnel numbers and eight new items (W1 to W8, D1).
+
+## What changed in Week 4
+
+- Colors, type and layout now follow the team's Figma Make mockup (Social Connections Page Design): DM Sans, a cream ground with warm white cards, black in-card buttons, red for the forward action, a white app header with "Saved", a light progress panel with card-style steps, and Back in the footer bar.
+- The red is a shade darker than the mockup's `#e73327` so white button text passes WCAG AA.
+- Connecting at least one channel is required. Continue explains this when nothing is connected and moves focus to the first channel. Adding a link counts, so nobody has to sign in to a platform.
+- We kept the inline connect panel rather than the mockup's modal, because Week 3 removed the popup on purpose (R4).
 
 ## Placeholders to replace
 
@@ -73,7 +80,7 @@ Be careful not to present these as facts.
 - **Review time** (3 to 5 business days) is made up. It lives in `REVIEW_WINDOW` in `src/data.ts`.
 - **Decline reasons** are written from what the tester entered. The real product needs reason codes from the review team.
 - **Brand name and offer** (Trailhead Outfitters) are sample text.
-- **impact.com wordmark** is typed text with a red dot (`Mark` in `src/components/Shell.tsx`), not the official logo file. The colors and Lexend font come from impact.com, but their heading typeface is proprietary, so Lexend stands in for it.
+- **impact.com wordmark** is typed text with a red dot (`Mark` in `src/components/Shell.tsx`), not the official logo file. Colors and type follow the team's Figma Make mockup (DM Sans).
 - **Follower counts** are generated. They are labeled "sample" on screen.
 - **AI profile draft** is three templates in `makeDraft` in `src/data.ts`.
 - **Academy and resource hub items** on the result screen are sample items.
@@ -86,7 +93,7 @@ Be careful not to present these as facts.
 These are listed on the Changes page too.
 
 - Direct Instagram sign-in (without Facebook) may not be available. If not, remove the note in `src/components/ConnectPanel.tsx`. Gauravee is checking Meta's OAuth scope with engineering.
-- Whether skipping channels hurts marketplace approval.
+- Whether requiring a channel makes the Connect drop worse, especially for brand-invited partners.
 - Whether "completed" in the funnel sheet includes skipped steps.
 - Which channels actually perform best (the "recommended" line is a guess).
 - Whether the phone number can move later in the flow.

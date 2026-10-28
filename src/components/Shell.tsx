@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { BRAND, REVIEW_WINDOW, plural } from '../data'
-import { useProto } from '../state'
+import { fullNameOf, useProto } from '../state'
 
 export interface StepDef {
   key: string
@@ -14,7 +14,7 @@ export interface StepDef {
 export const STEPS: StepDef[] = [
   { key: 'account', label: 'Create account', minutes: 1, path: '/signup' },
   { key: 'about', label: 'About you', minutes: 1, path: '/about' },
-  { key: 'channels', label: 'Connect channels', note: 'Optional', minutes: 1, path: '/channels' },
+  { key: 'channels', label: 'Connect channels', note: 'At least one', minutes: 1, path: '/channels' },
   { key: 'profile', label: 'Your profile', note: 'Optional', minutes: 2, path: '/profile' },
 ]
 
@@ -52,22 +52,36 @@ export function FlowShell({ step, children }: { step: number; children: ReactNod
   const left = minutesLeft(step)
   const pct = Math.round((step / STEPS.length) * 100)
   const joining = state.entry === 'invite' ? `Joining ${BRAND.name}` : 'Joining the marketplace'
+  const who = step > 0 ? state.workName.trim() || fullNameOf(state) : ''
 
   return (
     <div className="flow">
-      <aside className="rail" aria-label="Your progress">
-        <Link to="/" className="rail-brand">
+      <header className="apphead">
+        <Link to="/" className="apphead-brand">
           <Mark />
-          <span>Partners</span>
         </Link>
+        <span className="apphead-label">Partner application</span>
+        {who && <span className="apphead-who">{who}</span>}
+        {step > 0 && (
+          <span className="apphead-saved">
+            Saved
+            <span className="apphead-saved-tick">
+              <Check />
+            </span>
+          </span>
+        )}
+      </header>
+
+      <aside className="rail" aria-label="Your progress">
+        <p className="rail-title">Complete your application</p>
         <p className="rail-joining">{joining}</p>
 
-        <p className="rail-pct">
-          <span className="rail-pct-num">{pct}%</span>
-          <span className="rail-pct-label">complete</span>
+        <p className="rail-progress">
+          <span className="rail-pct">{pct}% complete</span>
+          <span className="rail-left">About {plural(left, 'min', 'min')} left</span>
         </p>
         <div className="rail-bar" aria-hidden="true">
-          <span style={{ width: `${pct}%` }} />
+          <span style={{ width: `${Math.max(pct, 4)}%` }} />
         </div>
 
         <ol className="steps">
@@ -78,26 +92,17 @@ export function FlowShell({ step, children }: { step: number; children: ReactNod
                 <span className="step-dot">{status === 'done' ? <Check /> : i + 1}</span>
                 <span className="step-text">
                   <span className="step-label">{s.label}</span>
-                  {s.note && <span className="step-note">{s.note}</span>}
-                  {status === 'done' && <span className="visually-hidden">Done</span>}
+                  {status === 'done' ? <span className="step-note">Complete</span> : s.note && <span className="step-note">{s.note}</span>}
                 </span>
+                {status === 'current' && (
+                  <span className="step-arrow" aria-hidden="true">
+                    →
+                  </span>
+                )}
               </li>
             )
           })}
         </ol>
-
-        {step > 0 && (
-          <p className="rail-saved">
-            <Check />
-            Progress saved
-          </p>
-        )}
-
-        <p className="rail-time">
-          <span className="rail-time-small">About</span>
-          <span className="rail-time-big">{plural(left, 'minute', 'minutes')}</span>
-          <span className="rail-time-small">left</span>
-        </p>
 
         <p className="rail-foot">
           {state.entry === 'marketplace'
@@ -108,10 +113,7 @@ export function FlowShell({ step, children }: { step: number; children: ReactNod
 
       <div className="topbar" role="group" aria-label="Your progress">
         <div className="topbar-row">
-          <Link to="/" className="rail-brand">
-            <Mark />
-            <span>Partners</span>
-          </Link>
+          <span className="topbar-label">{STEPS[step].label}</span>
           <span className="topbar-step">
             Step {step + 1} of {STEPS.length}
           </span>
@@ -127,12 +129,18 @@ export function FlowShell({ step, children }: { step: number; children: ReactNod
   )
 }
 
-export function ActionBar({ children, note }: { children: ReactNode; note?: ReactNode }) {
+/** Sticky footer: optional Back on the left, a note, then the forward action on the right (as in the Figma mockup). */
+export function ActionBar({ children, note, back }: { children: ReactNode; note?: ReactNode; back?: string }) {
   return (
     <div className="actionbar">
       <div className="actionbar-inner">
-        <div className="actionbar-buttons">{children}</div>
+        {back && (
+          <Link to={back} className="btn btn-outline actionbar-back">
+            <span aria-hidden="true">←</span> Back
+          </Link>
+        )}
         {note && <p className="actionbar-note">{note}</p>}
+        <div className="actionbar-buttons">{children}</div>
       </div>
     </div>
   )

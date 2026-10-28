@@ -70,7 +70,7 @@ export default function Landing() {
               <strong>Tell us what you do.</strong> This decides which channels and brands we suggest.
             </li>
             <li>
-              <strong>Connect your channels.</strong> Optional, but brands can't see your reach without them.
+              <strong>Connect a channel.</strong> At least one is needed so brands can see your reach. A link works if you'd rather not sign in.
             </li>
             <li>
               <strong>Get reviewed.</strong> Marketplace partners go through a quality review that usually takes {REVIEW_WINDOW}. Invited partners are reviewed by the brand that invited them.

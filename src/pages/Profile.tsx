@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { track } from '../analytics'
 import { BRAND, CHANNELS, draftName, listJoin, makeDraft, REVIEW_WINDOW, shortName } from '../data'
 import { ActionBar, FlowShell } from '../components/Shell'
@@ -52,9 +52,6 @@ export default function Profile() {
   return (
     <FlowShell step={3}>
       <div className="page">
-        <Link to="/channels" className="backlink">
-          Back
-        </Link>
         <p className="eyebrow">Step 4 of 4 · Optional</p>
         <h1>Check your profile</h1>
         <p className="lead">This is what brands read first. You can change it any time in Settings.</p>
@@ -119,6 +116,7 @@ export default function Profile() {
       </div>
 
       <ActionBar
+        back="/channels"
         note={
           state.entry === 'invite'
             ? `Next, ${BRAND.name} reviews your request.`

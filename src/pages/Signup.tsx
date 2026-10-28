@@ -70,7 +70,7 @@ export default function Signup() {
         <div className="expect" aria-label="What to expect">
           <p className="expect-title">What to expect</p>
           <ul>
-            <li>Four short steps. Two of them are optional.</li>
+            <li>Four short steps. Only the profile is optional.</li>
             {invited ? (
               <li>{BRAND.name} reviews your request after you submit.</li>
             ) : (

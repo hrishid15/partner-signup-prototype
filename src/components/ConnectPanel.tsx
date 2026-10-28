@@ -154,7 +154,7 @@ export default function ConnectPanel({ channel, onClose, onConnected }: Props) {
           )}
           <Disclosure channel={channel} viaLink={false} />
           <div className="cpanel-actions">
-            <button type="button" className="btn btn-primary" onClick={startLogin}>
+            <button type="button" className="btn btn-dark" onClick={startLogin}>
               Continue with {channel.name}
               <span className="newtab" aria-hidden="true">
                 ↗
@@ -196,7 +196,7 @@ export default function ConnectPanel({ channel, onClose, onConnected }: Props) {
             </ul>
           </div>
           <div className="cpanel-actions">
-            <button type="button" className="btn btn-primary" onClick={startLogin}>
+            <button type="button" className="btn btn-dark" onClick={startLogin}>
               Try again
             </button>
             <button type="button" className="btn btn-secondary" onClick={() => setView('link')}>
@@ -239,7 +239,7 @@ export default function ConnectPanel({ channel, onClose, onConnected }: Props) {
           </label>
           <Disclosure channel={channel} viaLink />
           <div className="cpanel-actions">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-dark">
               {channel.id === 'website' ? 'Add website' : channel.id === 'other' ? 'Add link' : `Add ${channel.name}`}
             </button>
             {!channel.linkOnly && (
