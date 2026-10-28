@@ -1,6 +1,6 @@
 import type { State } from './state'
 
-export type Source = 'UX review' | 'Kelly' | 'Bobby' | 'Rishab'
+export type Source = 'UX review' | 'Kelly' | 'Bobby' | 'Rishab' | 'Week 3 notes' | 'Funnel data'
 export type Status = 'fixed' | 'partial' | 'open' | 'duplicate'
 
 export interface Where {
@@ -340,10 +340,92 @@ export const ISSUES: Issue[] = [
     id: 'R4',
     source: 'Rishab',
     saw: 'Connecting Instagram goes through Facebook first, which is harder for partners without a Facebook account.',
-    change: 'The Instagram sheet offers a direct Instagram sign-in and "Add link instead".',
+    change: 'The Instagram panel offers a direct Instagram sign-in and "Add a link instead".',
     status: 'partial',
     caveat: 'Whether direct Instagram sign-in is available to us needs engineering to confirm. "Add link instead" works either way.',
     where: { label: 'Connect Instagram', to: '/channels' },
+  },
+
+  // Week 3: team discussion and funnel data
+  {
+    id: 'W1',
+    source: 'Week 3 notes',
+    saw: 'Instagram OAuth goes through the Meta Creator page and needs a Facebook account. Linktree signs in with Instagram directly.',
+    change: 'The Instagram panel says "No Facebook account? Choose Log in with Instagram" and keeps "Add a link instead" as the other route.',
+    status: 'partial',
+    caveat: 'Gauravee is checking with engineering whether Meta\'s OAuth can be limited to Instagram. If not, the note comes out.',
+    where: { label: 'Connect Instagram', to: '/channels' },
+  },
+  {
+    id: 'W2',
+    source: 'Week 3 notes',
+    severity: 'Major',
+    saw: 'LinkedIn connections are declined automatically because LinkedIn has no verification step, and the product never says so. About 100 Ask Impact questions a week are about declines and reapplying.',
+    change: 'LinkedIn is not offered. "Why isn\'t LinkedIn here?" under the list explains it in two sentences, so nobody connects a channel that won\'t count.',
+    status: 'fixed',
+    caveat: 'Partners who already connected LinkedIn still see "Disconnected" on the dashboard. That is a dashboard fix (see the Week 3 brief).',
+    where: { label: 'Connect channels', to: '/channels' },
+  },
+  {
+    id: 'W3',
+    source: 'Week 3 notes',
+    severity: 'Major',
+    saw: 'The connect UI does not say why a channel is requested or what data it uses.',
+    change: 'Opening a channel shows three short lines before anything is connected: why we ask, what we read, and how to disconnect. A link-only add says it keeps the link and nothing else.',
+    status: 'fixed',
+    caveat: 'The data lists are placeholders until engineering confirms the real OAuth scopes.',
+    where: { label: 'Connect TikTok', to: '/channels' },
+  },
+  {
+    id: 'W4',
+    source: 'Week 3 notes',
+    saw: 'Disconnect is hard to find, so partners cannot tell how to remove a channel.',
+    change: 'Every connected tile has a Disconnect button. It asks once, on the tile, and says what happens ("Brands will stop seeing it").',
+    status: 'fixed',
+    where: { label: 'Connect channels', to: '/channels' },
+  },
+  {
+    id: 'W5',
+    source: 'Week 3 notes',
+    saw: 'Popups and modals add steps and are harder on mobile. The mockup uses an inline layout.',
+    change: 'The connect modal is gone. A panel opens under the tile you picked, on desktop and on phones, and focus moves into it and back out.',
+    status: 'fixed',
+    where: { label: 'Connect channels', to: '/channels' },
+  },
+  {
+    id: 'W6',
+    source: 'Week 3 notes',
+    saw: '"Optional but recommended" should name the highest-performing channels. OAuth should open in a new tab.',
+    change: 'The line under the headline names the three suggested channels for the partner\'s type. Sign-in is described as opening in a new tab, with a "waiting for the other tab" state and a way back.',
+    status: 'partial',
+    caveat: 'We have no performance data by channel, so the named channels are the first three for each partner type, not a measured ranking. The new tab is simulated.',
+    where: { label: 'Connect channels', to: '/channels' },
+  },
+  {
+    id: 'W7',
+    source: 'Week 3 notes',
+    saw: 'Rishi\'s mockup puts the brand-view preview (today in Settings) into onboarding, updating as channels are added.',
+    change: 'The preview stays on the connect page and now has an orbit graphic that fills in, one slot per channel, next to the card brands see.',
+    status: 'fixed',
+    where: { label: 'Connect channels', to: '/channels' },
+  },
+  {
+    id: 'W8',
+    source: 'Week 3 notes',
+    saw: 'Upfluence lets partners paste a handle now and verify later. Adobe returns the user to a confirmation after connecting.',
+    change: 'Adding by link marks the tile "We\'ll check it in review" and moves on. Connecting by sign-in returns to the same tile with a confirmation and an updated preview.',
+    status: 'fixed',
+    where: { label: 'Connect channels', to: '/channels' },
+  },
+  {
+    id: 'D1',
+    source: 'Funnel data',
+    severity: 'Blocker',
+    saw: 'Connect your channels is the biggest leak. Marketplace partners complete it 65 to 67% of the time and brand-invited partners 54 to 59%, against 90 to 97% on the other steps. Invited partners drop more even though a brand already invited them.',
+    change: 'For invited partners the page says the brand already invited them and that skipping is fine, and the footer note says the brand can still review the request. Everyone gets the inline panel, skip-first footer and plain data-use lines.',
+    status: 'partial',
+    caveat: 'This is a hypothesis: invited partners may read "connect" as redundant. We do not know whether "completed" counts skipped steps, so some of the drop may be people skipping. Needs PostHog.',
+    where: { label: 'Connect channels, brand invite', to: '/channels', patch: invite },
   },
 ]
 

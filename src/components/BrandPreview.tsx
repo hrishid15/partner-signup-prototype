@@ -1,6 +1,41 @@
 import { formatReach, PERSONAS, CHANNELS } from '../data'
 import { fullNameOf, useProto } from '../state'
 
+/** Ring of slots around the partner. Each connected channel fills one, so adding a channel visibly changes the picture. */
+function Orbit({ initial }: { initial: string }) {
+  const { state } = useProto()
+  const slots = 6
+  const r = 78
+  const c = 110
+  return (
+    <svg className="orbit" viewBox="0 0 220 220" role="img" aria-label={`${state.connected.length} of ${slots} places filled`}>
+      <circle cx={c} cy={c} r={r} fill="none" stroke="var(--line)" strokeWidth="1.5" strokeDasharray="3 6" />
+      <circle cx={c} cy={c} r={r - 34} fill="none" stroke="var(--line)" strokeWidth="1" />
+      {Array.from({ length: slots }).map((_, i) => {
+        const a = (-90 + i * (360 / slots)) * (Math.PI / 180)
+        const x = c + r * Math.cos(a)
+        const y = c + r * Math.sin(a)
+        const ch = state.connected[i]
+        const def = ch ? CHANNELS[ch.id] : null
+        return def ? (
+          <g key={i} className="orbit-dot">
+            <circle cx={x} cy={y} r="17" fill={def.color} />
+            <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="700" fill="#fff" fontFamily="var(--font-display)">
+              {def.badge}
+            </text>
+          </g>
+        ) : (
+          <circle key={i} cx={x} cy={y} r="13" fill="var(--paper)" stroke="var(--line-strong)" strokeWidth="1.5" strokeDasharray="3 3" />
+        )
+      })}
+      <circle cx={c} cy={c} r="34" fill="var(--ink)" />
+      <text x={c} y={c + 11} textAnchor="middle" fontSize="30" fontWeight="700" fill="var(--paper)" fontFamily="var(--font-display)">
+        {initial}
+      </text>
+    </svg>
+  )
+}
+
 /**
  * Live preview of the profile a brand sees. It exists to answer "why connect?"
  * with something the partner can watch change, instead of one line of copy.
@@ -16,6 +51,7 @@ export default function BrandPreview({ compact = false }: { compact?: boolean })
   return (
     <section className={`preview${compact ? ' preview-compact' : ''}`} aria-label="How brands will see you">
       <h2 className="preview-title">How brands will see you</h2>
+      {!compact && <Orbit initial={name.charAt(0).toUpperCase()} />}
       <div className="preview-card">
         <div className="preview-head">
           <span className="avatar" style={firstDef ? { background: firstDef.color } : undefined} aria-hidden="true">

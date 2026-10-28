@@ -1,0 +1,263 @@
+/* ------------------------------------------------------------------
+   Week 3 additions. Loaded after styles.css, so it only adds or overrides.
+   The base palette and type are the impact.com restyle in styles.css.
+   From the team's Figma Make mockup: a big headline, a red eyebrow, a
+   progress panel with percent complete, a footer bar with Skip and
+   Continue, arrows on the forward action, and an orbit graphic.
+------------------------------------------------------------------- */
+.flow-main h1 {
+  font-size: clamp(2.1rem, 1.3rem + 3vw, 3.2rem);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--primary-dark);
+  font: 600 0.8125rem/1.2 var(--font-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.btn-danger {
+  background: var(--error);
+  color: #fff;
+}
+.btn-danger:hover {
+  background: #8f1c13;
+}
+.actionbar .btn-primary::after {
+  content: '→';
+  font-weight: 500;
+}
+.newtab {
+  font-weight: 500;
+}
+
+/* Progress panel: percent complete, bar, saved note */
+.rail-pct {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 26px;
+}
+.rail-pct-num {
+  font: 500 3.2rem/0.95 var(--font-display);
+  letter-spacing: -0.04em;
+}
+.rail-pct-label {
+  color: var(--rail-muted);
+  font-weight: 500;
+}
+.rail-bar {
+  height: 6px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+.rail-bar span {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.steps {
+  margin-top: 26px;
+}
+.rail-saved {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  color: #7fe0b0;
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+/* ------------------------------------------------------------------
+   Week 3 theme. Loaded after styles.css, so it only overrides.
+   Direction comes from the team's Figma Make mockup: cream ground,
+   one red accent, black pill buttons, a big headline, a left progress
+   panel with percent complete, and a footer bar with Skip and Continue.
+------------------------------------------------------------------- */
+/* Channel tiles */
+.group-title {
+  margin: 28px 0 10px;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.tiles {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.tile {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-areas: 'badge text' 'act act';
+  gap: 10px 12px;
+  align-items: center;
+  padding: 16px;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+}
+.tile .chbadge {
+  grid-area: badge;
+}
+.tile .chtext {
+  grid-area: text;
+  min-width: 0;
+}
+.tile-act {
+  grid-area: act;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.tile-open {
+  border-color: var(--ink);
+}
+.tile-on {
+  border-color: var(--ok);
+}
+.tile-on .chbadge {
+  box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--ok);
+}
+.tile .chmeta {
+  overflow-wrap: anywhere;
+}
+
+/* Inline connect panel, replaces the modal */
+.cpanel {
+  margin: 0 0 18px;
+  padding: 22px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+}
+.cpanel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cpanel-head h3 {
+  font-size: 1.35rem;
+  outline: none;
+}
+.cpanel-lead {
+  margin-top: 8px;
+}
+.cpanel-hint {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--wash);
+  border-radius: 12px;
+  font-size: 0.9375rem;
+}
+.cpanel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.cpanel-wait {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0 2px;
+}
+.cpanel-error {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: #fdecea;
+  border-left: 4px solid var(--error);
+  border-radius: 0 12px 12px 0;
+}
+.cpanel-error ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.disclose {
+  margin: 16px 0 0;
+  display: grid;
+  gap: 10px;
+  font-size: 0.9375rem;
+}
+.disclose > div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.disclose dt {
+  font-weight: 500;
+}
+.disclose dd {
+  margin: 0;
+  color: var(--muted);
+}
+.disclose ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.spinner {
+  border-top-color: var(--primary);
+}
+
+/* LinkedIn explainer */
+.linkedin {
+  margin-top: 22px;
+  max-width: 62ch;
+  font-size: 0.9375rem;
+}
+.linkedin summary {
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.linkedin p {
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+/* Orbit graphic in the brand preview */
+.preview {
+  background: var(--wash);
+  border-radius: 24px;
+}
+.orbit {
+  display: block;
+  width: 100%;
+  max-width: 230px;
+  margin: 0 auto 14px;
+}
+.preview-card {
+  border-radius: 18px;
+  border-color: var(--line);
+}
+.avatar {
+  background: var(--ink);
+}
+
+@media (max-width: 859px) {
+  .rail-pct-num {
+    font-size: 2.6rem;
+  }
+}
+@media (max-width: 599px) {
+  .tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .disclose > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}
+

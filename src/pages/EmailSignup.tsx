@@ -67,6 +67,7 @@ export default function EmailSignup() {
         <Link to="/signup" className="backlink">
           Back
         </Link>
+        <p className="eyebrow">Step 1 of 4</p>
         <h1>Create your account</h1>
         <p className="lead">Use an email you check often. We send your review decision there.</p>
 

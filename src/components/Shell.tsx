@@ -62,6 +62,14 @@ export function FlowShell({ step, children }: { step: number; children: ReactNod
         </Link>
         <p className="rail-joining">{joining}</p>
 
+        <p className="rail-pct">
+          <span className="rail-pct-num">{pct}%</span>
+          <span className="rail-pct-label">complete</span>
+        </p>
+        <div className="rail-bar" aria-hidden="true">
+          <span style={{ width: `${pct}%` }} />
+        </div>
+
         <ol className="steps">
           {STEPS.map((s, i) => {
             const status = i < step ? 'done' : i === step ? 'current' : 'todo'
@@ -77,6 +85,13 @@ export function FlowShell({ step, children }: { step: number; children: ReactNod
             )
           })}
         </ol>
+
+        {step > 0 && (
+          <p className="rail-saved">
+            <Check />
+            Progress saved
+          </p>
+        )}
 
         <p className="rail-time">
           <span className="rail-time-small">About</span>

@@ -55,6 +55,7 @@ export default function Profile() {
         <Link to="/channels" className="backlink">
           Back
         </Link>
+        <p className="eyebrow">Step 4 of 4 · Optional</p>
         <h1>Check your profile</h1>
         <p className="lead">This is what brands read first. You can change it any time in Settings.</p>
 

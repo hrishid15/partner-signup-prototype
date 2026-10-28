@@ -27,18 +27,25 @@ export interface ChannelDef {
   /** Channels with no sign-in route, link only. */
   linkOnly?: boolean
   linkExample: string
+  /** Why we ask for this channel, in one sentence. */
+  why: string
+  /** The exact data we read. Placeholder until engineering confirms scopes. */
+  uses: string[]
 }
 
+/** Channels we name as "recommended". Placeholder until we have performance data by channel. */
+export const RECOMMENDED = ['instagram', 'tiktok', 'youtube']
+
 export const CHANNELS: Record<string, ChannelDef> = {
-  instagram: { id: 'instagram', name: 'Instagram', badge: 'IG', color: '#9B2C6B', method: 'Sign in with Instagram', placeholder: '@yourname or instagram.com/yourname', linkExample: 'instagram.com/yourname' },
-  tiktok: { id: 'tiktok', name: 'TikTok', badge: 'TT', color: '#1B1F23', method: 'Sign in with TikTok', placeholder: '@yourname or tiktok.com/@yourname', linkExample: 'tiktok.com/@yourname' },
-  youtube: { id: 'youtube', name: 'YouTube', badge: 'YT', color: '#B3261E', method: 'Sign in with Google', placeholder: 'youtube.com/@yourchannel', linkExample: 'youtube.com/@yourchannel' },
-  website: { id: 'website', name: 'Website or blog', badge: 'W', color: '#0B6E5F', method: 'Paste your address. No sign-in needed.', placeholder: 'yoursite.com', linkOnly: true, linkExample: 'yoursite.com' },
-  facebook: { id: 'facebook', name: 'Facebook page', badge: 'f', color: '#2F55A4', method: 'Sign in with Facebook', placeholder: 'facebook.com/yourpage', linkExample: 'facebook.com/yourpage' },
-  pinterest: { id: 'pinterest', name: 'Pinterest', badge: 'P', color: '#A61E36', method: 'Sign in with Pinterest', placeholder: 'pinterest.com/yourname', linkExample: 'pinterest.com/yourname' },
-  twitch: { id: 'twitch', name: 'Twitch', badge: 'Tw', color: '#6A3FB5', method: 'Sign in with Twitch', placeholder: 'twitch.tv/yourname', linkExample: 'twitch.tv/yourname' },
-  x: { id: 'x', name: 'X', badge: 'X', color: '#2B2B2B', method: 'Sign in with X', placeholder: '@yourname or x.com/yourname', linkExample: 'x.com/yourname' },
-  other: { id: 'other', name: 'Another link', badge: '+', color: '#566573', method: 'Newsletter, podcast, store. Paste any link.', placeholder: 'https://', linkOnly: true, linkExample: 'https://yourlink.com' },
+  instagram: { id: 'instagram', name: 'Instagram', badge: 'IG', color: '#9B2C6B', method: 'Sign in with Instagram', placeholder: '@yourname or instagram.com/yourname', linkExample: 'instagram.com/yourname', why: 'Brands use your follower count and recent posts to judge fit.', uses: ['Your username and profile photo','Your follower count','Your public posts (to show brands your style)'] },
+  tiktok: { id: 'tiktok', name: 'TikTok', badge: 'TT', color: '#1B1F23', method: 'Sign in with TikTok', placeholder: '@yourname or tiktok.com/@yourname', linkExample: 'tiktok.com/@yourname', why: 'Brands use your follower count and views to judge fit.', uses: ['Your username and profile photo','Your follower count','Your public videos and view counts'] },
+  youtube: { id: 'youtube', name: 'YouTube', badge: 'YT', color: '#B3261E', method: 'Sign in with Google', placeholder: 'youtube.com/@yourchannel', linkExample: 'youtube.com/@yourchannel', why: 'Brands use your subscribers and views to judge fit.', uses: ['Your channel name and photo','Your subscriber count','Your public videos and view counts'] },
+  website: { id: 'website', name: 'Website or blog', badge: 'W', color: '#0B6E5F', method: 'Paste your address. No sign-in needed.', placeholder: 'yoursite.com', linkOnly: true, linkExample: 'yoursite.com', why: 'Brands want to see where your links will live.', uses: ['The address you enter, nothing else','We check it is yours during review'] },
+  facebook: { id: 'facebook', name: 'Facebook page', badge: 'f', color: '#2F55A4', method: 'Sign in with Facebook', placeholder: 'facebook.com/yourpage', linkExample: 'facebook.com/yourpage', why: 'Brands use your page followers to judge fit.', uses: ['Your page name and photo','Your page follower count','Your public posts'] },
+  pinterest: { id: 'pinterest', name: 'Pinterest', badge: 'P', color: '#A61E36', method: 'Sign in with Pinterest', placeholder: 'pinterest.com/yourname', linkExample: 'pinterest.com/yourname', why: 'Brands use your followers and monthly views to judge fit.', uses: ['Your username and profile photo','Your follower count','Your public boards'] },
+  twitch: { id: 'twitch', name: 'Twitch', badge: 'Tw', color: '#6A3FB5', method: 'Sign in with Twitch', placeholder: 'twitch.tv/yourname', linkExample: 'twitch.tv/yourname', why: 'Brands use your followers and viewers to judge fit.', uses: ['Your channel name and photo','Your follower count','Your public streams'] },
+  x: { id: 'x', name: 'X', badge: 'X', color: '#2B2B2B', method: 'Sign in with X', placeholder: '@yourname or x.com/yourname', linkExample: 'x.com/yourname', why: 'Brands use your followers to judge fit.', uses: ['Your handle and profile photo','Your follower count','Your public posts'] },
+  other: { id: 'other', name: 'Another link', badge: '+', color: '#566573', method: 'Newsletter, podcast, store. Paste any link.', placeholder: 'https://', linkOnly: true, linkExample: 'https://yourlink.com', why: 'Brands want to see everything you share on.', uses: ['The link you enter, nothing else','We check it during review'] },
 }
 
 const ORDER: Record<Persona | 'none', string[]> = {

@@ -55,6 +55,17 @@ Two quick tours:
 
 IDs: `F` is the 18 findings in our UX review, `K` is Kelly, `B` is Bobby, `R` is Rishab. The full table, with status and caveats, is in `src/issues.ts`.
 
+## What changed in Week 3
+
+- Connect channels is inline: a panel opens under the tile, no popup. Sign-in is described as opening in a new tab (simulated).
+- Each channel shows why we ask, what we read, and how to disconnect before anything is connected.
+- Every connected tile has Disconnect, with a one-line confirm on the tile.
+- LinkedIn is not offered. "Why isn't LinkedIn here?" explains the auto-decline.
+- "Optional, but recommended" names the suggested channels. Brand-invited partners get invite-specific wording.
+- The brand-view preview has an orbit graphic that fills in as channels are added.
+- Looks borrowed from the Figma Make mockup, on top of the impact.com restyle: a progress panel with percent complete and "Progress saved", a red step eyebrow, a bigger headline, arrows on the forward button, and the orbit graphic.
+- The Changes page has the funnel numbers and eight new items (W1 to W8, D1).
+
 ## Placeholders to replace
 
 Be careful not to present these as facts.
@@ -66,13 +77,18 @@ Be careful not to present these as facts.
 - **Follower counts** are generated. They are labeled "sample" on screen.
 - **AI profile draft** is three templates in `makeDraft` in `src/data.ts`.
 - **Academy and resource hub items** on the result screen are sample items.
+- **"What we read" lists and "why we ask" lines** per channel (`why` and `uses` in `CHANNELS`, `src/data.ts`) are placeholders until engineering confirms the real OAuth scopes. The "We only read" line is an assumption.
+- **Recommended channels.** The line under the Connect headline names the first three channels for the partner's type. It is not a measured ranking. `RECOMMENDED` in `src/data.ts` is unused for now and marks where real data would go.
+- **Funnel numbers** on the Changes page are from the Aug to Oct 2026 checklist sheet. October is a partial month.
 
 ## Things we could not confirm
 
 These are listed on the Changes page too.
 
-- Direct Instagram sign-in (without Facebook) may not be available. If not, remove the note in `src/components/ConnectSheet.tsx`.
+- Direct Instagram sign-in (without Facebook) may not be available. If not, remove the note in `src/components/ConnectPanel.tsx`. Gauravee is checking Meta's OAuth scope with engineering.
 - Whether skipping channels hurts marketplace approval.
+- Whether "completed" in the funnel sheet includes skipped steps.
+- Which channels actually perform best (the "recommended" line is a guess).
 - Whether the phone number can move later in the flow.
 - Whether the theme follows the device (finding 16). The prototype is light only.
 - Mobile 2FA and website verification were never tested in Week 1.
@@ -83,7 +99,7 @@ Every funnel event goes through `track()` in `src/analytics.ts`, which logs to t
 
 ## Stack and layout
 
-Vite, React 19, TypeScript, React Router (hash routing, so it works on any static host). Plain CSS in `src/styles.css`, with fonts from `@fontsource-variable`.
+Vite, React 19, TypeScript, React Router (hash routing, so it works on any static host). Plain CSS in `src/styles.css` (the impact.com restyle), with the Week 3 additions in `src/theme.css`, and fonts from `@fontsource-variable`.
 
 ```
 src/
@@ -91,10 +107,10 @@ src/
   data.ts            personas, channels, sample copy and numbers
   issues.ts          the master issue list behind the Changes page
   state.tsx          one context for the whole flow, kept in sessionStorage
-  components/        progress rail, control bar, connect sheet, brand preview
+  components/        progress panel, control bar, inline connect panel, brand preview
   pages/             one file per screen
 ```
 
 ## Accessibility notes
 
-Visible keyboard focus, focus moves to the page heading on each screen, the connect sheet is a native dialog (Escape closes it), the character counter and channel changes are announced, and motion respects `prefers-reduced-motion`. It has not had a screen reader pass or a contrast audit by a person yet.
+Visible keyboard focus, focus moves to the page heading on each screen, the connect panel is inline (no dialog), focus moves into it when it opens and back to the tile when it closes, disconnect asks on the tile, the character counter and channel changes are announced, and motion respects `prefers-reduced-motion`. It has not had a screen reader pass or a contrast audit by a person yet.

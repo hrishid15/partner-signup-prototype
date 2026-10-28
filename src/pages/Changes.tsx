@@ -3,25 +3,31 @@ import { useNavigate } from 'react-router-dom'
 import { ISSUES, STATUS_LABEL, type Source, type Status } from '../issues'
 import { useProto } from '../state'
 
-const SOURCES: ('All' | Source)[] = ['All', 'UX review', 'Kelly', 'Bobby', 'Rishab']
+const SOURCES: ('All' | Source)[] = ['All', 'UX review', 'Kelly', 'Bobby', 'Rishab', 'Week 3 notes', 'Funnel data']
 const STATUSES: ('All' | Status)[] = ['All', 'fixed', 'partial', 'open', 'duplicate']
 
 const BEFORE = [
   'Next stays disabled until a channel is connected. Skip and the "optional" text sit under the header, so partners never see them.',
-  'No reason to connect beyond one line of copy.',
-  'A failed connection gives little feedback and no other route.',
-  'Instagram goes through Facebook first.',
-  'No way to add a website or a link without signing in.',
-  'No sign of what brands will see.',
+  'The screen never says why a channel is requested or what data it uses.',
+  'Instagram goes through Facebook first. LinkedIn is declined automatically and nothing says so.',
+  'Connecting opens a popup. A failed connection gives little feedback and no other route.',
+  'Disconnect is hard to find.',
+  'The brand-view preview lives in Settings, after the partner has already decided.',
 ]
 
 const AFTER = [
-  'One button that changes with the situation: "Skip for now" with no channel, "Continue" with one. It is always visible, in a sticky bar clear of the header.',
-  'A line under the button says what skipping costs, and what connecting adds is visible in the preview on the right.',
-  'A failure names the channel and the reason, gives two tips, and offers Try again and "Add link instead".',
-  'The Instagram sheet offers a direct Instagram sign-in. This needs engineering to confirm.',
-  'Every channel can be added by link, and a website or any other address needs no sign-in at all.',
-  'The preview shows the partner\'s card as brands would see it, and fills in as they connect.',
+  'Skip for now is always visible in a footer bar, and becomes Continue once a channel is connected. A line says what skipping costs.',
+  'Opening a channel shows three lines before anything is connected: why we ask, what we read, and how to disconnect.',
+  'Instagram offers a direct sign-in note (pending engineering). LinkedIn is not listed, and "Why isn\'t LinkedIn here?" explains the auto-decline.',
+  'Everything happens inline. A panel opens under the tile you chose, sign-in is described as a new tab, and a failure names the channel, gives two tips and offers "Add a link instead".',
+  'Each connected tile has Disconnect, with a one-line confirm on the tile.',
+  'The brand-view preview sits beside the list, with an orbit graphic that fills in as channels are added.',
+]
+
+const NUMBERS: { step: string; market: string; invited: string }[] = [
+  { step: 'Categorize your business', market: '92 to 93%', invited: '90 to 91%' },
+  { step: 'Connect your channels', market: '65 to 67%', invited: '54 to 59%' },
+  { step: 'Personalize your profile', market: '96 to 97%', invited: '94%' },
 ]
 
 const FUNNEL: { moment: string; risk: string; change: string; events: string }[] = [
@@ -45,9 +51,9 @@ const FUNNEL: { moment: string; risk: string; change: string; events: string }[]
   },
   {
     moment: 'Connect channels',
-    risk: 'This is where partners without a ready account, or with a failing connection, get stuck. It has no exit.',
-    change: 'Visible skip, a cost line, specific errors with another route, add by link, a live preview.',
-    events: 'channels_viewed, channel_connect_started, channel_connect_succeeded, channel_connect_failed, channel_link_added, channels_skipped, channels_continued',
+    risk: 'The biggest leak in the real funnel (see the numbers above). Partners without a ready account, with a failing connection, or who do not know why a channel is wanted stop here. Invited partners may read it as redundant.',
+    change: 'Visible skip, plain data-use lines, an inline panel instead of a popup, specific errors with another route, add by link, disconnect on each tile, a live preview, and invite-specific wording.',
+    events: 'channels_viewed (entry), channel_panel_opened, channel_connect_started, channel_connect_succeeded, channel_connect_failed, channel_link_added, channel_disconnect_asked, channel_disconnected, linkedin_explainer_opened, channels_skipped, channels_continued',
   },
   {
     moment: 'Profile',
@@ -74,7 +80,11 @@ const DECISIONS: { q: string; why: string }[] = [
     q: 'Does skipping channels hurt approval?',
     why: 'The new button makes skipping easy. If marketplace review needs a channel, partners who skip will be declined later. Decide whether to require one for the marketplace only, and tell them on this screen.',
   },
-  { q: 'Can we offer direct Instagram sign-in?', why: 'The sheet assumes it. If not, the note comes out and "Add link instead" stays the route.' },
+  { q: 'Can we offer direct Instagram sign-in?', why: 'Gauravee is checking with engineering whether Meta\'s OAuth can be limited to Instagram. The panel assumes yes. If not, the note comes out and "Add a link instead" stays the route.' },
+  { q: 'Which channels actually perform best?', why: 'The "recommended" line names the first three channels for each partner type. That is a guess. If someone has channel-level approval or earnings data, swap it in.' },
+  { q: 'Does "completed" in the funnel sheet include skipped steps?', why: 'If yes, part of the Connect drop is people skipping, not failing. That changes what the fix should be.' },
+  { q: 'What are the real OAuth scopes for each channel?', why: 'The "what we read" lists are placeholders. They need to match what the integrations actually request.' },
+  { q: 'Should invited partners see a shorter Connect step?', why: 'They drop more than marketplace partners even with a brand invite. We reworded the page; the next option is to move Connect after the brand responds.' },
   { q: 'Can the phone number move later in the flow?', why: 'It is the most unexplained field. If 2FA allows it, the email form drops to four fields.' },
   { q: 'Checkbox or "by continuing you agree"?', why: 'We followed the team\'s recommendation for a checkbox. Legal may accept the shorter version, which removes a click.' },
   { q: 'What are the real review time and decline reasons?', why: 'Both are placeholders. The decline screen needs reason codes from the review team.' },
@@ -102,7 +112,7 @@ export default function Changes() {
         <header>
           <h1>What changed and why</h1>
           <p className="lead">
-            We redesigned the partner signup around every issue from Week 1: the 18 findings in the UX review, plus what Kelly, Bobby and Rishab found. The biggest change is on Connect channels, because that is where a partner is most likely to stop.
+            We redesigned the partner signup around every issue from Week 1: the 18 findings in the UX review, plus what Kelly, Bobby and Rishab found. Week 3 adds the team discussion (inline connect, data-use lines, LinkedIn, disconnect), the Figma mockup's look, and the funnel data. The biggest change is still Connect channels, because the funnel shows it is where partners stop.
           </p>
           <ul className="tally" aria-label="Summary">
             <li>
@@ -120,6 +130,7 @@ export default function Changes() {
           </ul>
           <nav className="jump" aria-label="On this page">
             <a href="#channels">Connect channels</a>
+            <a href="#funnel">Funnel data</a>
             <a href="#dropoff">Drop-off, step by step</a>
             <a href="#issues">Every issue</a>
             <a href="#decisions">Open decisions</a>
@@ -166,6 +177,36 @@ export default function Changes() {
               </button>
             </div>
           </div>
+        </section>
+
+        <section id="funnel" aria-labelledby="fu-title">
+          <h2 id="fu-title">What the funnel data says</h2>
+          <p>
+            Share of partners who finish each onboarding checklist step, Aug to Oct 2026 (October is a partial month). The Connect step is the one that loses people, and brand-invited partners lose the most.
+          </p>
+          <div className="tablewrap">
+            <table className="tbl">
+              <thead>
+                <tr>
+                  <th scope="col">Checklist step</th>
+                  <th scope="col">Marketplace partners</th>
+                  <th scope="col">Brand-invited partners</th>
+                </tr>
+              </thead>
+              <tbody>
+                {NUMBERS.map((r) => (
+                  <tr key={r.step}>
+                    <th scope="row">{r.step}</th>
+                    <td data-label="Marketplace partners">{r.market}</td>
+                    <td data-label="Brand-invited partners">{r.invited}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="proto-note">
+            In August about 5,800 marketplace partners and about 44,600 invited partners did not finish Connect. The next step only reaches people who did finish it, which is why the later steps look healthy. We don't know whether "completed" counts skipped steps. The Ask Impact questions point the same way: partners are confused about verification, failed connections and why they were declined.
+          </p>
         </section>
 
         <section id="dropoff" aria-labelledby="do-title">
